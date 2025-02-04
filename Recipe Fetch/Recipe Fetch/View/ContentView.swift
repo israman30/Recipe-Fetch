@@ -18,14 +18,10 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(vm.recipes, id: \.uuid) { recipe in
-                    VStack(alignment: .leading) {
-                        Text(recipe.name)
-                            .font(.headline)
-                        Text(recipe.cuisine)
-                            .font(.caption)
-                    }
+                    CardView(recipe: recipe)
                 }
             }
+            .listStyle(.grouped)
             .navigationTitle("Recipes")
             .task {
                 await vm.fechtRecipes()
@@ -36,4 +32,24 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+
+struct ShadowText: ViewModifier {
+    var x: CGFloat
+    var y: CGFloat
+    var cornerRadius: CGFloat
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.white)
+            .padding()
+            .background(Color.black.opacity(0.4))
+            .cornerRadius(10)
+            .offset(x: x, y: y)
+    }
+}
+
+extension View {
+    func shadowText(x: CGFloat = 0, y: CGFloat = 0, cornerRadius: CGFloat = 10) -> some View {
+        modifier(ShadowText(x: x, y: y, cornerRadius: cornerRadius))
+    }
 }
