@@ -67,15 +67,15 @@ struct ContentView: View {
     }
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-        .task {
-            await vm.fechtRecipes()
+        NavigationView {
+            List {
+                ForEach(vm.recipes, id: \.uuid) { recipe in
+                    Text(recipe.name)
+                }
+            }
+            .task {
+                await vm.fechtRecipes()
+            }
         }
     }
 }
