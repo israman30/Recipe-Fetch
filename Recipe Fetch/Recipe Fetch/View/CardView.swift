@@ -28,7 +28,6 @@ struct CardView: View {
                             .fontWeight(.bold)
                     }
                     .shadowText(x: 10, y: 15, cornerRadius: 10)
-                    
                     Spacer()
                     VStack {
                         if let sourceURL = recipe.sourceURL {
@@ -47,16 +46,22 @@ struct CardView: View {
     CardView(recipe: Recipe(cuisine: "Italian", name: "Spagetty", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg", photoURLSmall: "", sourceURL: "", uuid: "2www"))
 }
 
-struct CardBackground: ViewModifier {
+struct ShadowText: ViewModifier {
+    var x: CGFloat
+    var y: CGFloat
+    var cornerRadius: CGFloat
     func body(content: Content) -> some View {
         content
-            .background(Color("CardBackground"))
-            .cornerRadius(20)
-            .shadow(color: Color.black.opacity(0.2), radius: 4)
+            .foregroundColor(.white)
+            .padding()
+            .background(Color.black.opacity(0.4))
+            .cornerRadius(10)
+            .offset(x: x, y: y)
     }
 }
+
 extension View {
-    func cardBackground() -> some View {
-        modifier(CardBackground())
+    func shadowText(x: CGFloat = 0, y: CGFloat = 0, cornerRadius: CGFloat = 10) -> some View {
+        modifier(ShadowText(x: x, y: y, cornerRadius: cornerRadius))
     }
 }
