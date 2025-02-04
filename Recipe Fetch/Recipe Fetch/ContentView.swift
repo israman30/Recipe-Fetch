@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-class NetworkManager {
+protocol APIClient {
+    func fetch<T: Decodable>(from url: URL) async throws -> T
+}
+
+class NetworkManager: APIClient {
     
     private let urlCache: URLCache
     
@@ -29,6 +33,28 @@ class NetworkManager {
         }
         
         return try JSONDecoder().decode(T.self, from: data)
+    }
+}
+
+struct Endpoint {
+    static let url = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json")
+}
+
+class ViewModel: ObservableObject {
+    @Published var recipes: [Recipe] = []
+    
+    private let networkManager: NetworkManager
+    
+    init(networkManager: NetworkManager) {
+        self.networkManager = networkManager
+    }
+    
+    func fechtRecipes() async {
+        do {
+            self.recipes = try await networkManager.fetch(from: Endpoint.url!)
+        } catch {
+            
+        }
     }
 }
 
