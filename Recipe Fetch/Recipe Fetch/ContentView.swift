@@ -42,14 +42,18 @@ class NetworkManager: APIClient {
 class ViewModel: ObservableObject {
     @Published var recipes: [Recipe] = []
     
-    private let networkManager: NetworkManager
+    private let networkManager: APIClient
     
-    init(networkManager: NetworkManager) {
+    init(networkManager: APIClient) {
         self.networkManager = networkManager
     }
     
     func fechtRecipes() async {
-        
+        do {
+            self.recipes = try await networkManager.fetch()
+        } catch {
+            print("DEBUG: \(APIError.errorGettingDataFromNetworkLayer(error.localizedDescription))")
+        }
     }
 }
 
