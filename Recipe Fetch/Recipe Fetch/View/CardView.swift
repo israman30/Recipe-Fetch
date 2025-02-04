@@ -16,6 +16,7 @@ struct CardView: View {
             AsyncImage(url: URL(string: recipe.photoURLSmall)) { image in
                 image.image?.resizable()
                     .scaledToFit()
+                    .cornerRadius(10)
             }
             VStack {
                 VStack(alignment: .leading) {
@@ -33,9 +34,9 @@ struct CardView: View {
                         if let sourceURL = recipe.sourceURL {
                             Text(sourceURL)
                                 .font(.caption)
+                                .shadowText(x: 10, y: -15, cornerRadius: 10)
                         }
                     }
-                    .shadowText(x: 10, y: -15, cornerRadius: 10)
                 }
             }
         }
@@ -54,7 +55,7 @@ struct ShadowText: ViewModifier {
         content
             .foregroundColor(.white)
             .padding()
-            .background(Color.black.opacity(0.4))
+            .background(Color.black.opacity(0.5))
             .cornerRadius(10)
             .offset(x: x, y: y)
     }
