@@ -7,39 +7,38 @@
 
 import SwiftUI
 
-protocol APIClient {
-    func fetch<T: Decodable>(from url: URL) async throws -> T
-}
-
-class NetworkManager: APIClient {
-    
-    private let urlCache: URLCache
-    
-    init(urlCache: URLCache = .shared) {
-        self.urlCache = urlCache
-    }
-    
-    func fetch<T: Decodable>(from url: URL) async throws -> T {
-        if let cacheResponse = urlCache.cachedResponse(for: URLRequest(url: url)) {
-            let decodeData = try JSONDecoder().decode(T.self, from: cacheResponse.data)
-            return decodeData
-        }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        if let httpsResponse = response as? HTTPURLResponse, httpsResponse.statusCode == 200 {
-            let cacheResponse = CachedURLResponse(response: response, data: data)
-            urlCache.storeCachedResponse(cacheResponse, for: URLRequest(url: url))
-        }
-        
-        return try JSONDecoder().decode(T.self, from: data)
-    }
-}
-
 struct Endpoint {
     static let url = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json")
 }
 
+enum APIError: Error {
+    case invalidURL
+    case errorResponse
+    case errorGettingDataFromNetworkLayer(_ message: String)
+    case failDecodingArticles(_ localized: String)
+}
+
+protocol APIClient {
+    func fetch() async throws -> [Recipe]
+}
+
+class NetworkManager: APIClient {
+    
+    func fetch() async throws -> [Recipe] {
+        guard let url = Endpoint.url else {
+            throw APIError.invalidURL
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let response = response as? HTTPURLResponse, (200...300).contains(response.statusCode) else {
+            throw APIError.errorResponse
+        }
+        return try JSONDecoder().decode(Welcome.self, from: data).recipes
+    }
+}
+
+@MainActor
 class ViewModel: ObservableObject {
     @Published var recipes: [Recipe] = []
     
@@ -50,15 +49,17 @@ class ViewModel: ObservableObject {
     }
     
     func fechtRecipes() async {
-        do {
-            self.recipes = try await networkManager.fetch(from: Endpoint.url!)
-        } catch {
-            
-        }
+        
     }
 }
 
 struct ContentView: View {
+    @StateObject var vm: ViewModel
+    
+    init() {
+        self._vm = StateObject(wrappedValue: ViewModel(networkManager: NetworkManager()))
+    }
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -67,6 +68,9 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .task {
+            await vm.fechtRecipes()
+        }
     }
 }
 
