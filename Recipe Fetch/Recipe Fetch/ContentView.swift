@@ -14,7 +14,7 @@ struct Endpoint {
 enum APIError: Error {
     case invalidURL
     case errorResponse
-    case errorGettingDataFromNetworkLayer(_ message: String)
+    case errorGettingDataFromNetworkLayer(_ message: Error)
     case failDecodingArticles(_ localized: String)
 }
 
@@ -31,7 +31,8 @@ class NetworkManager: APIClient {
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        guard let response = response as? HTTPURLResponse, (200...300).contains(response.statusCode) else {
+        guard let response = response as? HTTPURLResponse,
+                (200...300).contains(response.statusCode) else {
             throw APIError.errorResponse
         }
         return try JSONDecoder().decode(Welcome.self, from: data).recipes
@@ -51,8 +52,9 @@ class ViewModel: ObservableObject {
     func fechtRecipes() async {
         do {
             self.recipes = try await networkManager.fetch()
+            print(self.recipes)
         } catch {
-            print("DEBUG: \(APIError.errorGettingDataFromNetworkLayer(error.localizedDescription))")
+            print("DEBUG: \(APIError.errorGettingDataFromNetworkLayer(error))")
         }
     }
 }
