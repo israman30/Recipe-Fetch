@@ -70,9 +70,15 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(vm.recipes, id: \.uuid) { recipe in
-                    Text(recipe.name)
+                    VStack(alignment: .leading) {
+                        Text(recipe.name)
+                            .font(.headline)
+                        Text(recipe.cuisine)
+                            .font(.caption)
+                    }
                 }
             }
+            .navigationTitle("Recipes")
             .task {
                 await vm.fechtRecipes()
             }
