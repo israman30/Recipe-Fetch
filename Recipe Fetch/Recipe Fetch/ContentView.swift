@@ -15,7 +15,7 @@ enum APIError: Error {
     case invalidURL
     case errorResponse
     case errorGettingDataFromNetworkLayer(_ message: Error)
-    case failDecodingArticles(_ localized: String)
+    case failDecodingRecipe(_ localized: String)
 }
 
 protocol APIClient {
@@ -35,7 +35,7 @@ class NetworkManager: APIClient {
                 (200...300).contains(response.statusCode) else {
             throw APIError.errorResponse
         }
-        return try JSONDecoder().decode(Welcome.self, from: data).recipes
+        return try JSONDecoder().decode(Recipes.self, from: data).recipes
     }
 }
 
