@@ -27,12 +27,12 @@ struct CardView: View {
                         Text((recipe?.cuisine == nil ? recipeData?.cuisinie : recipe?.cuisine) ?? "")
                             .font(.title2)
                     }
-                    .shadowText(x: 10, y: 15, cornerRadius: 10)
+                    .shadowText(x: 10, y: 15, cornerRadius: 5)
                     Spacer()
                     VStack {
                         Text((recipe?.sourceURL == nil ? recipeData?.sourceURL : recipe?.sourceURL) ?? "")
                             .font(.caption)
-                            .shadowText(x: 10, y: -15, cornerRadius: 10)
+                            .shadowText(x: 10, y: -15, cornerRadius: 5)
                     }
                 }
             }
@@ -51,9 +51,10 @@ struct ShadowText: ViewModifier {
     func body(content: Content) -> some View {
         content
             .foregroundColor(.white)
-            .padding()
-            .background(Color.black.opacity(0.5))
-            .cornerRadius(10)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
+            .background(Color.black.opacity(0.6))
+            .cornerRadius(cornerRadius)
             .offset(x: x, y: y)
     }
 }

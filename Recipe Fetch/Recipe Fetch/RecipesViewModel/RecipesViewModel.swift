@@ -38,7 +38,8 @@ class ViewModel: ObservableObject {
     
     func fechtRecipes(context: NSManagedObjectContext) async {
         do {
-            self.recipes = try await networkManager.fetch()
+            guard let url = Endpoint.url else { return }
+            self.recipes = try await networkManager.fetch(url: url)
 //            print(self.recipes)
             self.save(context: context)
         } catch {

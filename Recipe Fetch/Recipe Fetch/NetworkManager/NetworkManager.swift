@@ -11,30 +11,59 @@ struct Endpoint {
     static let url = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json")
 }
 
+protocol APIClient {
+    func fetch<T: Decodable>(url: URL) async throws -> T
+}
+
 enum APIError: Error {
     case invalidURL
     case errorResponse
     case errorGettingDataFromNetworkLayer(_ message: Error)
+    case clientError(statusCode: Int)
+    case serverError(statusCode: Int)
+    case unknownError(statusCode: Int)
     case failDecodingRecipe(_ localized: String)
+    case errorFetchingRecipes(_ localized: String)
 }
 
-protocol APIClient {
-    func fetch() async throws -> [Recipe]
+extension APIError {
+    var errorDescription: String? {
+        switch self {
+        case .failDecodingRecipe(let localized):
+            return "Failed decoding recipe: \(localized)"
+        case .errorFetchingRecipes(let localized):
+            return "Error fetching recipes: \(localized)"
+        default:
+            return nil
+        }
+    }
 }
 
 class NetworkManager: APIClient {
     
-    func fetch() async throws -> [Recipe] {
-        guard let url = Endpoint.url else {
-            throw APIError.invalidURL
-        }
+    func fetch<T: Decodable>(url: URL) async throws -> T {
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        guard let response = response as? HTTPURLResponse,
-                (200...300).contains(response.statusCode) else {
+        guard let response = response as? HTTPURLResponse else {
             throw APIError.errorResponse
         }
-        return try JSONDecoder().decode(Recipes.self, from: data).recipes
+        
+        try invalid(response)
+        
+        return try JSONDecoder().decode(Recipes.self, from: data).recipes as! T
+    }
+    
+    private func invalid(_ response: HTTPURLResponse) throws {
+        switch response.statusCode {
+        case 200...399:
+            return
+        case 400...599:
+            throw APIError.clientError(statusCode: response.statusCode)
+        case 600...799:
+            throw APIError.serverError(statusCode: response.statusCode)
+        default:
+            throw APIError.unknownError(statusCode: response.statusCode)
+        }
     }
 }
