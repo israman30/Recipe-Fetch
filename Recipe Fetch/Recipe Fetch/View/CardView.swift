@@ -9,11 +9,12 @@ import SwiftUI
 
 struct CardView: View {
     
-    var recipe: Recipe
+    var recipe: Recipe?
+    var recipeData: RecipeData?
     
     var body: some View {
         ZStack(alignment: .leading) {
-            AsyncImage(url: URL(string: recipe.photoURLSmall)) { image in
+            AsyncImage(url: URL(string: (recipe?.photoURLSmall == nil ? recipeData?.photoURLSmall : recipe?.photoURLSmall) ?? "")) { image in
                 image.image?.resizable()
                     .scaledToFit()
                     .cornerRadius(10)
@@ -21,9 +22,9 @@ struct CardView: View {
             VStack {
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
-                        Text(recipe.name)
+                        Text((recipe?.name == nil ? recipeData?.name : recipe?.name) ?? "")
                             .font(.callout)
-                        Text(recipe.cuisine )
+                        Text((recipe?.cuisine == nil ? recipeData?.cuisinie : recipe?.cuisine) ?? "")
                             .font(.title2)
                             
                             .fontWeight(.bold)
@@ -31,7 +32,7 @@ struct CardView: View {
                     .shadowText(x: 10, y: 15, cornerRadius: 10)
                     Spacer()
                     VStack {
-                        if let sourceURL = recipe.sourceURL {
+                        if let sourceURL = recipe?.sourceURL {
                             Text(sourceURL)
                                 .font(.caption)
                                 .shadowText(x: 10, y: -15, cornerRadius: 10)
