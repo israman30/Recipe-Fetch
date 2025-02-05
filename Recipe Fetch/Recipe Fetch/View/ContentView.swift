@@ -17,8 +17,12 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(vm.recipes, id: \.uuid) { recipe in
-                    CardView(recipe: recipe)
+                if vm.recipes.isEmpty {
+                    ProgressView()
+                } else {
+                    ForEach(vm.recipes, id: \.uuid) { recipe in
+                        CardView(recipe: recipe)
+                    }
                 }
             }
             .listStyle(.grouped)
