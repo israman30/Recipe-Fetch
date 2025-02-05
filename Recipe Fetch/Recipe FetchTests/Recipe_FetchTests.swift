@@ -33,13 +33,17 @@ class Recipe_FetchTests: XCTestCase {
     /// Test `APIClient` with `MockAPIClient` class
     var mockClient: MockAPIClient!
     let testURL = URL(string: "https://example.com/api")!
+    
+    var networkManager: NetworkManager!
 
     override func setUpWithError() throws {
         mockClient = MockAPIClient()
+        networkManager = NetworkManager()
     }
     
     override func tearDownWithError() throws {
         mockClient = nil
+        networkManager = nil
     }
     
     func test_ResponseWithError() async throws {
@@ -83,6 +87,23 @@ class Recipe_FetchTests: XCTestCase {
             XCTFail("Expected fetch to throw an error, but it did not.")
         } catch {
             XCTAssertNotNil(error, "An error should be thrown when fetch fails.")
+        }
+    }
+    
+    func test_statusCode() {
+        let validResponses = [200, 250, 300, 399]
+        
+        for statusCode in validResponses {
+           if let response = HTTPURLResponse(
+                url: testURL,
+                statusCode: statusCode,
+                httpVersion: nil,
+                headerFields: nil
+           ) {
+               XCTAssertNoThrow(try networkManager.invalid(response), "Expected no error for status code \(statusCode)")
+           } else {
+               XCTFail("Failed to create valid HTTPURLResponse for status code \(statusCode)")
+           }
         }
     }
 
