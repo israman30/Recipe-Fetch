@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct Recipe_FetchApp: App {
+    
+    let persistenceContainer: PersistenceContainer = .shared
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, persistenceContainer.container.viewContext)
         }
     }
 }

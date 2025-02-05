@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var vm: ViewModel
+    @Environment(\.managedObjectContext) var context
     
     init() {
         self._vm = StateObject(wrappedValue: ViewModel(networkManager: NetworkManager()))
@@ -28,7 +29,7 @@ struct ContentView: View {
             .listStyle(.grouped)
             .navigationTitle("Recipes")
             .task {
-                await vm.fechtRecipes()
+                await vm.fechtRecipes(context: context)
             }
         }
     }
