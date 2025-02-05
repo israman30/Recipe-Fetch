@@ -26,17 +26,13 @@ struct CardView: View {
                             .font(.callout)
                         Text((recipe?.cuisine == nil ? recipeData?.cuisinie : recipe?.cuisine) ?? "")
                             .font(.title2)
-                            
-                            .fontWeight(.bold)
                     }
                     .shadowText(x: 10, y: 15, cornerRadius: 10)
                     Spacer()
                     VStack {
-                        if let sourceURL = recipe?.sourceURL {
-                            Text(sourceURL)
-                                .font(.caption)
-                                .shadowText(x: 10, y: -15, cornerRadius: 10)
-                        }
+                        Text((recipe?.sourceURL == nil ? recipeData?.sourceURL : recipe?.sourceURL) ?? "")
+                            .font(.caption)
+                            .shadowText(x: 10, y: -15, cornerRadius: 10)
                     }
                 }
             }

@@ -25,6 +25,7 @@ class ViewModel: ObservableObject {
             entity.cuisinie = recipe.cuisine
             entity.photoURLSmall = recipe.photoURLSmall
             entity.uuid = recipe.uuid
+            entity.sourceURL = recipe.sourceURL
         }
         
         do {
