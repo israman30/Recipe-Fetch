@@ -10,7 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var vm: ViewModel
     @Environment(\.managedObjectContext) var context
-    @FetchRequest(entity: RecipeData.entity(), sortDescriptors: []) var results: FetchedResults<RecipeData>
+    @FetchRequest(
+        entity: RecipeData.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \RecipeData.name, ascending: true)]
+    ) private var results: FetchedResults<RecipeData>
     
     init() {
         self._vm = StateObject(wrappedValue: ViewModel(networkManager: NetworkManager()))
@@ -45,6 +48,25 @@ struct ContentView: View {
                     .navigationTitle("Recipes")
                 }
             }
+            .toolbar {
+                Button {
+                    reloadData()
+                } label: {
+                    Image(systemName: "arrow.trianglehead.clockwise")
+                }
+            }
+        }
+    }
+    
+    // cleearing data for reloading
+    private func reloadData() {
+        do {
+            results.forEach { recipe in
+                context.delete(recipe)
+            }
+            try context.save()
+        } catch {
+            print("Error deleting data: \(error)")
         }
     }
 }
