@@ -19,15 +19,12 @@ enum APIError: Error {
 }
 
 protocol APIClient {
-    func fetch() async throws -> [Recipe]
+    func fetch<T: Decodable>(url: URL) async throws -> T
 }
 
 class NetworkManager: APIClient {
     
-    func fetch() async throws -> [Recipe] {
-        guard let url = Endpoint.url else {
-            throw APIError.invalidURL
-        }
+    func fetch<T: Decodable>(url: URL) async throws -> T {
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
@@ -35,6 +32,6 @@ class NetworkManager: APIClient {
                 (200...300).contains(response.statusCode) else {
             throw APIError.errorResponse
         }
-        return try JSONDecoder().decode(Recipes.self, from: data).recipes
+        return try JSONDecoder().decode(Recipes.self, from: data).recipes as! T
     }
 }
