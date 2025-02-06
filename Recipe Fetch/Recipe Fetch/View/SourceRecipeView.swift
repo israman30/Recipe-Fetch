@@ -33,10 +33,11 @@ struct SourceRecipeView: View {
             VStack(alignment: .center) {
                 Text(recipe?.name ?? "")
                     .font(.largeTitle)
-                    .fontWeight(.medium)
+                    .fontWeight(.bold)
                 Text(recipe?.cuisine ?? "")
                     .font(.title)
             }
+            Spacer()
             VStack(spacing: 10) {
                 if let url = URL(string: recipe?.sourceURL ?? "") {
                     Link(destination: url) {
@@ -44,7 +45,7 @@ struct SourceRecipeView: View {
                             Text("Source")
                             Image(systemName: "safari")
                         }
-                        .font(.body)
+                        .font(.title2)
                     }
                 }
                 
@@ -55,7 +56,7 @@ struct SourceRecipeView: View {
                             Image(systemName: "play.tv.fill")
                         }
                         .foregroundStyle(.red)
-                        .font(.body)
+                        .font(.title2)
                     }
                 }
             }
