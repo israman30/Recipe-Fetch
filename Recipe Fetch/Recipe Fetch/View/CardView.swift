@@ -52,6 +52,7 @@ struct CardView: View {
     CardView(recipe: Recipe(cuisine: "Italian", name: "Spagetty", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg", photoURLSmall: "", sourceURL: "", uuid: "2www"))
 }
 
+// MARK: - Modifier for CardView shadow
 struct ShadowText: ViewModifier {
     var x: CGFloat
     var y: CGFloat

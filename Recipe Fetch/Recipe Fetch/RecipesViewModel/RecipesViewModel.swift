@@ -9,7 +9,15 @@ import SwiftUI
 import CoreData
 
 @MainActor
-class RecipeViewModel: ObservableObject {
+protocol RecipeViewModelProtocol: ObservableObject {
+    var recipes: [Recipe] { get set }
+}
+
+protocol FetchRecipeContextViewModelProtocol {
+    func fechtRecipes(context: NSManagedObjectContext) async
+}
+
+class RecipeViewModel: RecipeViewModelProtocol, FetchRecipeContextViewModelProtocol {
     @Published var recipes: [Recipe] = []
     
     private let networkManager: APIClient
