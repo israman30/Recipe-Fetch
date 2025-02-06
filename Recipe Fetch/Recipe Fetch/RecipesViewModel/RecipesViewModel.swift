@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 @MainActor
-class ViewModel: ObservableObject {
+class RecipeViewModel: ObservableObject {
     @Published var recipes: [Recipe] = []
     
     private let networkManager: APIClient

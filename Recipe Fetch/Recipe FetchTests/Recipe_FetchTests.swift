@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import Recipe_Fetch
 
 struct MockResponse: Codable, Equatable {
@@ -28,6 +29,25 @@ class MockAPIClient: APIClient {
     }
 }
 
+class MockViewModel {
+    
+    var mockRecipes: [Recipe] = []
+    
+    let mockAPIClient: MockAPIClient
+    
+    init(mockAPIClient: MockAPIClient) {
+        self.mockAPIClient = mockAPIClient
+    }
+    
+    func fechtRecipes(context: NSManagedObjectContext) async {
+        do {
+            try context.save()
+        } catch {
+            XCTFail("Error saving context: \(error)")
+        }
+    }
+}
+
 class Recipe_FetchTests: XCTestCase {
     
     /// Test `APIClient` with `MockAPIClient` class
@@ -35,10 +55,13 @@ class Recipe_FetchTests: XCTestCase {
     let testURL = URL(string: "https://example.com/api")!
     
     var networkManager: NetworkManager!
+    var viewModel: MockViewModel!
+    var mockPersistentContainer: NSPersistentContainer!
 
     override func setUpWithError() throws {
         mockClient = MockAPIClient()
         networkManager = NetworkManager()
+        viewModel = MockViewModel(mockAPIClient: mockClient)
     }
     
     override func tearDownWithError() throws {
@@ -105,6 +128,19 @@ class Recipe_FetchTests: XCTestCase {
                XCTFail("Failed to create valid HTTPURLResponse for status code \(statusCode)")
            }
         }
+    }
+    
+    func testFetchRecipes_Success() async {
+
+        viewModel.mockRecipes = [
+            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "123"),
+            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "456"),
+            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "789")
+        ]
+        
+        XCTAssertFalse(viewModel.mockRecipes.isEmpty, "Expected an empty array of recipes")
+        XCTAssertEqual(viewModel.mockRecipes.count, 3, "Expected 2 recipes to be fetched")
+        XCTAssertEqual(viewModel.mockRecipes.first?.name, "Pasta", "First recipe name should be 'Pasta'")
     }
 
 }

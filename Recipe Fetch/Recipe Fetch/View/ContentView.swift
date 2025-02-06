@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var vm: ViewModel
+    @StateObject var vm: RecipeViewModel
     @Environment(\.managedObjectContext) var context
     @FetchRequest(
         entity: RecipeData.entity(),
@@ -16,7 +16,7 @@ struct ContentView: View {
     ) private var results: FetchedResults<RecipeData>
     
     init() {
-        self._vm = StateObject(wrappedValue: ViewModel(networkManager: NetworkManager()))
+        self._vm = StateObject(wrappedValue: RecipeViewModel(networkManager: NetworkManager()))
     }
     
     var body: some View {
