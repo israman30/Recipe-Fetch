@@ -25,8 +25,10 @@ struct CardView: View {
                         .font(.title)
                         .foregroundStyle(.gray)
                 } else {
-                    ProgressView()
-                        .font(.largeTitle)
+                    Image(systemName: "wifi.exclamationmark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200)
                 }
             }
             
@@ -34,17 +36,12 @@ struct CardView: View {
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
                         Text((recipe?.name == nil ? recipeData?.name : recipe?.name) ?? "")
-                            .font(.callout)
+                            .font(.largeTitle)
                         Text((recipe?.cuisine == nil ? recipeData?.cuisinie : recipe?.cuisine) ?? "")
                             .font(.title2)
                     }
                     .shadowText(x: 10, y: 15, cornerRadius: 5)
                     Spacer()
-                    VStack {
-                        Text((recipe?.sourceURL == nil ? recipeData?.sourceURL : recipe?.sourceURL) ?? "")
-                            .font(.caption)
-                            .shadowText(x: 10, y: -15, cornerRadius: 5)
-                    }
                 }
             }
         }
