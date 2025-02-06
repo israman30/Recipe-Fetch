@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
     @StateObject var vm: RecipeViewModel
@@ -35,7 +36,6 @@ struct ContentView: View {
                             }
                         }
                         .listStyle(.grouped)
-                        .navigationTitle("Recipes")
                     }
                     
                 } else {
@@ -45,9 +45,9 @@ struct ContentView: View {
                         }
                     }
                     .listStyle(.grouped)
-                    .navigationTitle("Recipes")
                 }
             }
+            .navigationTitle("Recipes")
             .toolbar {
                 Button {
                     reloadData()

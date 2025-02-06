@@ -14,11 +14,22 @@ struct CardView: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            AsyncImage(url: URL(string: (recipe?.photoURLSmall == nil ? recipeData?.photoURLSmall : recipe?.photoURLSmall) ?? "")) { image in
-                image.image?.resizable()
-                    .scaledToFit()
-                    .cornerRadius(10)
+            AsyncImage(url: URL(string: (recipe?.photoURLSmall == nil ? recipeData?.photoURLSmall : recipe?.photoURLSmall) ?? "")) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .cornerRadius(5)
+                } else if phase.error != nil {
+                    Text("Error loading image.")
+                        .font(.title)
+                        .foregroundStyle(.gray)
+                } else {
+                    ProgressView()
+                        .font(.largeTitle)
+                }
             }
+            
             VStack {
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
