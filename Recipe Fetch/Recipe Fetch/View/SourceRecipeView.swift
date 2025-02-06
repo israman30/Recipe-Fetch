@@ -40,8 +40,11 @@ struct SourceRecipeView: View {
             VStack {
                 if let url = URL(string: recipe?.sourceURL ?? "") {
                     Link(destination: url) {
-                        Text("Visit Source")
-                            .shadowText()
+                        HStack {
+                            Text("Source")
+                            Image(systemName: "safari")
+                        }
+                        .font(.body)
                     }
                 }
             }
