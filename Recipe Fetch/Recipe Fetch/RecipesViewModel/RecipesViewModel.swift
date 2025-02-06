@@ -40,7 +40,6 @@ class RecipeViewModel: ObservableObject {
         do {
             guard let url = Endpoint.url else { return }
             self.recipes = try await networkManager.fetch(url: url)
-//            print(self.recipes)
             self.save(context: context)
         } catch {
             print("DEBUG: \(APIError.errorGettingDataFromNetworkLayer(error))")

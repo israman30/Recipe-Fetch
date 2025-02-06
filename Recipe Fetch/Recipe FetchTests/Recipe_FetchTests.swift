@@ -14,7 +14,8 @@ struct MockResponse: Codable, Equatable {
     var isLoaded: Bool { true }
 }
 
-class MockAPIClient: APIClient {
+// MARK: - Mock Network Manager
+class MockNetworkManager: APIClient {
     var shouldThrowError = false
     var mockResponse: MockResponse?
 
@@ -29,14 +30,15 @@ class MockAPIClient: APIClient {
     }
 }
 
+// MARK: - Mock View Model
 class MockViewModel {
     
     var mockRecipes: [Recipe] = []
     
-    let mockAPIClient: MockAPIClient
+    let mockNetworkManager: MockNetworkManager
     
-    init(mockAPIClient: MockAPIClient) {
-        self.mockAPIClient = mockAPIClient
+    init(mockAPIClient: MockNetworkManager) {
+        self.mockNetworkManager = mockAPIClient
     }
     
     func fechtRecipes(context: NSManagedObjectContext) async {
@@ -47,26 +49,38 @@ class MockViewModel {
         }
     }
 }
+// MARK: - Mock Entity
+class MockEntity {
+    var name: String?
+    var cuisine: String?
+    
+    init() {
+        name = nil
+        cuisine = nil
+    }
+}
 
 class Recipe_FetchTests: XCTestCase {
     
     /// Test `APIClient` with `MockAPIClient` class
-    var mockClient: MockAPIClient!
+    var mockClient: MockNetworkManager!
     let testURL = URL(string: "https://example.com/api")!
     
     var networkManager: NetworkManager!
     var viewModel: MockViewModel!
-    var mockPersistentContainer: NSPersistentContainer!
+    var mockEntity: MockEntity!
 
     override func setUpWithError() throws {
-        mockClient = MockAPIClient()
+        mockClient = MockNetworkManager()
         networkManager = NetworkManager()
         viewModel = MockViewModel(mockAPIClient: mockClient)
+        mockEntity = MockEntity()
     }
     
     override func tearDownWithError() throws {
         mockClient = nil
         networkManager = nil
+        mockEntity = nil
     }
     
     func test_ResponseWithError() async throws {
@@ -141,6 +155,21 @@ class Recipe_FetchTests: XCTestCase {
         XCTAssertFalse(viewModel.mockRecipes.isEmpty, "Expected an empty array of recipes")
         XCTAssertEqual(viewModel.mockRecipes.count, 3, "Expected 2 recipes to be fetched")
         XCTAssertEqual(viewModel.mockRecipes.first?.name, "Pasta", "First recipe name should be 'Pasta'")
+    }
+    
+    func test_saveContext() {
+        viewModel.mockRecipes = []
+        
+        for recipe in viewModel.mockRecipes {
+            let entity = MockEntity()
+            entity.name = recipe.name
+            entity.cuisine = recipe.cuisine
+            
+            XCTAssert(entity.name?.hashValue != 0, "MockManaged object context should not be empty")
+            XCTAssertEqual(entity.name, recipe.name)
+            XCTAssertEqual(entity.cuisine, recipe.cuisine, "Cuisine name should be 'Italian'")
+        }
+        
     }
 
 }
