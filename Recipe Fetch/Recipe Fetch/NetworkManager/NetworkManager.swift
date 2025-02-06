@@ -54,7 +54,7 @@ class NetworkManager: APIClient {
         return try JSONDecoder().decode(Recipes.self, from: data).recipes as! T
     }
     
-    private func invalid(_ response: HTTPURLResponse) throws {
+    func invalid(_ response: HTTPURLResponse) throws {
         switch response.statusCode {
         case 200...399:
             return
