@@ -53,7 +53,11 @@ class NetworkManager: APIClient {
         
         try invalid(response)
         
-        return try JSONDecoder().decode(Recipes.self, from: data).recipes as! T
+        do {
+            return try JSONDecoder().decode(Recipes.self, from: data).recipes as! T
+        } catch {
+            throw APIError.failDecodingRecipe(error.localizedDescription)
+        }
     }
     
     func invalid(_ response: HTTPURLResponse) throws {
