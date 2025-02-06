@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SourceRecipeView: View {
+struct RecipeDetailView: View {
     
     var recipe: Recipe?
     
@@ -68,5 +68,5 @@ struct SourceRecipeView: View {
 }
 
 #Preview {
-    SourceRecipeView(recipe: Recipe(cuisine: "Malasyan", name: "Apam Balik", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg", photoURLSmall: "", sourceURL: "https://www.nyonyacooking.com/recipes/apam-balik~SJ5WuvsDf9WQ", uuid: "xxx", youtubeURL: "https://www.youtube.com/watch?v=6R8ffRRJcrg"))
+    RecipeDetailView(recipe: Recipe(cuisine: "Malasyan", name: "Apam Balik", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg", photoURLSmall: "", sourceURL: "https://www.nyonyacooking.com/recipes/apam-balik~SJ5WuvsDf9WQ", uuid: "xxx", youtubeURL: "https://www.youtube.com/watch?v=6R8ffRRJcrg"))
 }
