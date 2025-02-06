@@ -37,7 +37,7 @@ struct SourceRecipeView: View {
                 Text(recipe?.cuisine ?? "")
                     .font(.title)
             }
-            VStack {
+            VStack(spacing: 10) {
                 if let url = URL(string: recipe?.sourceURL ?? "") {
                     Link(destination: url) {
                         HStack {
@@ -47,7 +47,19 @@ struct SourceRecipeView: View {
                         .font(.body)
                     }
                 }
+                
+                if let youtubeURL = URL(string: recipe?.youtubeURL ?? "") {
+                    Link(destination: youtubeURL) {
+                        HStack {
+                            Text("YouTube")
+                            Image(systemName: "play.tv.fill")
+                        }
+                        .foregroundStyle(.red)
+                        .font(.body)
+                    }
+                }
             }
+            .padding()
             Spacer()
         }
         .ignoresSafeArea(.all)
@@ -55,5 +67,5 @@ struct SourceRecipeView: View {
 }
 
 #Preview {
-    SourceRecipeView(recipe: Recipe(cuisine: "Malasyan", name: "Apam Balik", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg", photoURLSmall: "", sourceURL: "https://www.nyonyacooking.com/recipes/apam-balik~SJ5WuvsDf9WQ", uuid: "xxx"))
+    SourceRecipeView(recipe: Recipe(cuisine: "Malasyan", name: "Apam Balik", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg", photoURLSmall: "", sourceURL: "https://www.nyonyacooking.com/recipes/apam-balik~SJ5WuvsDf9WQ", uuid: "xxx", youtubeURL: "https://www.youtube.com/watch?v=6R8ffRRJcrg"))
 }

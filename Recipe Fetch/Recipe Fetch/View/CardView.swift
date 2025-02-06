@@ -49,7 +49,7 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView(recipe: Recipe(cuisine: "Italian", name: "Spagetty", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg", photoURLSmall: "", sourceURL: "", uuid: "2www"))
+    CardView(recipe: Recipe(cuisine: "Italian", name: "Spagetty", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg", photoURLSmall: "", sourceURL: "", uuid: "2www", youtubeURL: "https://www.youtube.com/watch?v=6R8ffRRJcrg"))
 }
 
 // MARK: - Modifier for CardView shadow

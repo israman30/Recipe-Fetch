@@ -21,6 +21,7 @@ struct Recipe: Codable {
     let photoURLSmall: String
     let sourceURL: String?
     let uuid: String
+    let youtubeURL: String?
 
     enum CodingKeys: String, CodingKey {
         case cuisine, name
@@ -28,5 +29,6 @@ struct Recipe: Codable {
         case photoURLSmall = "photo_url_small"
         case sourceURL = "source_url"
         case uuid
+        case youtubeURL = "youtube_url"
     }
 }
