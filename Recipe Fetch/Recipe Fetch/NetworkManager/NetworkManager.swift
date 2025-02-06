@@ -11,10 +11,12 @@ struct Endpoint {
     static let url = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json")
 }
 
+/// The `APIClient` protocol defines the blueprint for a generic URL fetch function.
 protocol APIClient {
     func fetch<T: Decodable>(url: URL) async throws -> T
 }
 
+/// `Error` handler enum
 enum APIError: Error {
     case invalidURL
     case errorResponse
@@ -51,7 +53,11 @@ class NetworkManager: APIClient {
         
         try invalid(response)
         
-        return try JSONDecoder().decode(Recipes.self, from: data).recipes as! T
+        do {
+            return try JSONDecoder().decode(Recipes.self, from: data).recipes as! T
+        } catch {
+            throw APIError.failDecodingRecipe(error.localizedDescription)
+        }
     }
     
     func invalid(_ response: HTTPURLResponse) throws {

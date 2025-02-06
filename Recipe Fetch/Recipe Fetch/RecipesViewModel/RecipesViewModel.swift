@@ -8,8 +8,18 @@
 import SwiftUI
 import CoreData
 
+/// `RecipeViewModelProtocol`: Responsible for updating recipes on the main thread and ensuring they are observable.
 @MainActor
-class RecipeViewModel: ObservableObject {
+protocol RecipeViewModelProtocol: ObservableObject {
+    var recipes: [Recipe] { get set }
+}
+
+/// `FetchRecipeContextViewModelProtocol`: Responsible for fetching recipes from the endpoint via the network layer and saving the context to local storage.
+protocol FetchRecipeContextViewModelProtocol {
+    func fechtRecipes(context: NSManagedObjectContext) async
+}
+
+class RecipeViewModel: RecipeViewModelProtocol, FetchRecipeContextViewModelProtocol {
     @Published var recipes: [Recipe] = []
     
     private let networkManager: APIClient
@@ -18,6 +28,7 @@ class RecipeViewModel: ObservableObject {
         self.networkManager = networkManager
     }
     
+    /// The custom `save` function is responsible for extracting each `recipe` and persisting it within the `context` entity of the `local storage` system.
     private func save(context: NSManagedObjectContext) {
         recipes.forEach { recipe in
             let entity = RecipeData(context: context)

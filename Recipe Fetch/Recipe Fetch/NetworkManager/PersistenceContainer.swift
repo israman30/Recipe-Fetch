@@ -7,6 +7,28 @@
 
 import CoreData
 
+struct Constants {
+    static let containerName = "Recipe_Fetch"
+    static let containerPath = "/dev/null"
+}
+
+enum PersistenceError: Error {
+    case saveError(NSError, userInfo: [String:Any])
+    case loadPersistentStoreError(NSError, userInfo: [String:Any])
+    case invalidPersistentStoreURL
+    
+    var localizedDescription: String {
+        switch self {
+        case .saveError(let error, let userInfo):
+            return "Failed to save context: \(error.localizedDescription) and info: \(userInfo)"
+        case .loadPersistentStoreError(let error, let userInfo):
+            return "Failed to load persistent store: \(error.localizedDescription) and info: \(userInfo))"
+        case .invalidPersistentStoreURL:
+            return "Invalid persistent store URL."
+        }
+    }
+}
+
 struct PersistenceContainer {
     static let shared = PersistenceContainer()
     
@@ -16,11 +38,8 @@ struct PersistenceContainer {
         
         do {
             try viewContext.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        } catch let error as NSError {
+            print(PersistenceError.saveError(error, userInfo: error.userInfo))
         }
         return result
     }()
@@ -28,15 +47,12 @@ struct PersistenceContainer {
     let container: NSPersistentContainer
     
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "Recipe_Fetch")
+        container = NSPersistentContainer(name: Constants.containerName)
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: Constants.containerPath)
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
@@ -45,7 +61,7 @@ struct PersistenceContainer {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                print(PersistenceError.loadPersistentStoreError(error, userInfo: error.userInfo).localizedDescription)
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
