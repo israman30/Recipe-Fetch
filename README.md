@@ -115,6 +115,8 @@ There is a warning `Error creating the CFMessagePort needed to communicate with 
 
 
 
-<p align="center">
-    Xcode 16.2 - iOS 18.2 - iPhone16 Pro and Xcode Simulator 16.0
-</p>
+### Supported Platforms:  
+- **Xcode** 16.2  
+- **iOS** 18.2  
+- **iPhone** 16 Pro  
+- **Xcode Simulator** 16.0  
