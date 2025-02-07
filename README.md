@@ -1,4 +1,5 @@
 # Recipe-Fetch
+#### Candidate: Israel Manzo
 ### Summary: Include screen shots or a video of your app highlighting its features
 <p align="center">
 <img src="img/main.png" width="250"> <img src="img/detail.png" width="250">
@@ -111,3 +112,9 @@ Enhance the UI slightly for a better user experience.
 ### Additional Information: Is there anything else we should know? Feel free to share any insights or constraints you encountered.
 
 There is a warning `Error creating the CFMessagePort needed to communicate with PPT.` Occurs when Core Data performs a VACUUM operation to free up space in the SQLite database. This message is expected and does not indicate an issue. More details can be found here. [source](https://stackoverflow.com/questions/69002421/coredata-annotation-postsavemaintenance-incremental-vacuum-with-freelist-coun)
+
+
+
+<p align="center">
+    Xcode 16.2 - iOS 18.2 - iPhone16 Pro and Xcode Simulator 16.0
+</p>
