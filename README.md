@@ -46,7 +46,7 @@
 
 ### Time Spent: Approximately how long did you spend working on this project? How did you allocate your time?
 
-- Dedicated around 2 hours per day over the course of 5 days, strategically allocating time for feature development and systematic refactoring.
+- Dedicated around 3 hours per day over the course of 5 days, strategically allocating time for feature development and systematic refactoring.
 
 ### Trade-offs and Decisions: Did you make any significant trade-offs in your approach?
 
