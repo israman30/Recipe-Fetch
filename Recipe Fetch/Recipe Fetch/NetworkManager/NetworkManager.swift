@@ -12,35 +12,46 @@ struct Endpoint {
 }
 
 /// The `APIClient` protocol defines the blueprint for a generic URL fetch function.
+/// /// `APIClient` Protocol
+///
+/// Defines a blueprint for a network client that fetches and decodes data from a given URL.
+///
+/// ## Usage:
+/// - Conforms to `async/await` concurrency.
+/// - Supports decoding of `Decodable` types.
+///
+/// ## Requirements:
+/// - Implement `fetch(url:)` to perform network requests and decode the response.
+///
+/// ## Example:
+/// ```swift
+/// struct NetworkManager: APIClient {
+///     func fetch<T: Decodable>(url: URL) async throws -> T {
+///         let (data, _) = try await URLSession.shared.data(from: url)
+///         return try JSONDecoder().decode(T.self, from: data)
+///     }
+/// }
+/// ```
+
+/// Fetches and decodes data from the specified URL.
+///
+/// - Parameter url: The `URL` to request data from.
+/// - Returns: A decoded object of type `T`.
+/// - Throws: An error if the request or decoding fails.
 protocol APIClient {
     func fetch<T: Decodable>(url: URL) async throws -> T
 }
 
-/// `Error` handler enum
-enum APIError: Error {
-    case invalidURL
-    case errorResponse
-    case errorGettingDataFromNetworkLayer(_ message: Error)
-    case clientError(statusCode: Int)
-    case serverError(statusCode: Int)
-    case unknownError(statusCode: Int)
-    case failDecodingRecipe(_ localized: String)
-    case errorFetchingRecipes(_ localized: String)
-}
-
-extension APIError {
-    var errorDescription: String? {
-        switch self {
-        case .failDecodingRecipe(let localized):
-            return "Failed decoding recipe: \(localized)"
-        case .errorFetchingRecipes(let localized):
-            return "Error fetching recipes: \(localized)"
-        default:
-            return nil
-        }
-    }
-}
-
+/// `NetworkManager` Class
+///
+/// Conforms to the `APIClient` protocol to handle network requests and data decoding.
+/// It uses `URLSession` to fetch data from a given URL and decodes the response into a `Decodable` object.
+///
+/// ## Example:
+/// ```swift
+/// let manager = NetworkManager()
+/// let data: MyModel = try await manager.fetch(url: myURL)
+/// ```
 class NetworkManager: APIClient {
     
     func fetch<T: Decodable>(url: URL) async throws -> T {

@@ -12,6 +12,16 @@ struct Constants {
     static let containerPath = "/dev/null"
 }
 
+/// `PersistenceError` Enum
+///
+/// Represents errors related to Core Data persistence operations.
+/// It includes errors for saving, loading the persistent store, and invalid store URLs.
+///
+/// - `saveError`: Error encountered when saving the context, including the associated `NSError` and user info.
+/// - `loadPersistentStoreError`: Error encountered when loading the persistent store, including the associated `NSError` and user info.
+/// - `invalidPersistentStoreURL`: Invalid persistent store URL.
+///
+/// Each case has a localized description that provides detailed information about the error.
 enum PersistenceError: Error {
     case saveError(NSError, userInfo: [String:Any])
     case loadPersistentStoreError(NSError, userInfo: [String:Any])
@@ -29,6 +39,16 @@ enum PersistenceError: Error {
     }
 }
 
+/// `PersistenceContainer` struct
+///
+/// A container for managing Core Data's persistent store and context.
+/// It handles setting up the Core Data stack, including the managed object context and persistent store coordinator.
+///
+/// ## Example:
+/// ```swift
+/// let container = PersistenceContainer()
+/// let context = container.viewContext
+/// ```
 struct PersistenceContainer {
     static let shared = PersistenceContainer()
     

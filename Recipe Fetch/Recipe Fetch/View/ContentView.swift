@@ -8,6 +8,21 @@
 import SwiftUI
 import CoreData
 
+///```swift
+/// `RecipeView` View
+///
+/// This view manages the state and dependencies related to displaying and interacting with recipes.
+/// It utilizes a combination of `@StateObject`, `@Environment`, and `@FetchRequest` to handle the data flow and Core Data integration.
+///
+/// ## Properties:
+/// - `@StateObject var vm`: The `RecipeViewModel` that manages the recipe-related logic and business data.
+/// - `@Environment(\.managedObjectContext) var context`: The Core Data context injected by the environment for performing Core Data operations.
+/// - `@FetchRequest var results`: A fetch request that retrieves `RecipeData` from Core Data, sorted by the `name` attribute in ascending order.
+/// - `@EnvironmentObject var coordinator`: An environment object used for navigation and coordinating between views.
+///
+/// ## Initialization:
+/// The `RecipeView` is initialized by creating a `StateObject` for the `RecipeViewModel` and injecting a `NetworkManager` for API interactions.
+///```
 struct ContentView: View {
     @StateObject var vm: RecipeViewModel
     @Environment(\.managedObjectContext) var context
@@ -63,7 +78,7 @@ struct ContentView: View {
         }
     }
     
-    // cleearing data for reloading
+    /// Resetting the data in preparation for reloading.
     private func reloadData() {
         do {
             results.forEach { recipe in

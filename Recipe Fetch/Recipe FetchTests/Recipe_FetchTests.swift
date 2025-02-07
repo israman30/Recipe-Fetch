@@ -147,9 +147,9 @@ class Recipe_FetchTests: XCTestCase {
     func testFetchRecipes_Success() async {
 
         viewModel.mockRecipes = [
-            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "123"),
-            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "456"),
-            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "789")
+            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "123", youtubeURL: "youtube.com"),
+            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "456", youtubeURL: "youtube.com"),
+            Recipe(cuisine: "Italian", name: "Pasta", photoURLLarge: "", photoURLSmall: "https://example.com/pasta.jpg", sourceURL: "", uuid: "789", youtubeURL: "youtube.com")
         ]
         
         XCTAssertFalse(viewModel.mockRecipes.isEmpty, "Expected an empty array of recipes")
