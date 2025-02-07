@@ -8,13 +8,29 @@
 import SwiftUI
 import CoreData
 
-/// `RecipeViewModelProtocol`: Responsible for updating recipes on the main thread and ensuring they are observable.
+/// /// `RecipeViewModelProtocol` Protocol
+///
+/// A protocol that defines the blueprint for a recipe view model.
+/// It ensures that conforming types manage a list of recipes (`[Recipe]`) and are observed on the main thread.
+///
+/// - `recipes`: An array of `Recipe` objects to be displayed or managed in the view.
+///
+/// ## Usage:
+/// Conform to this protocol to create view models for managing recipes with SwiftUI.
 @MainActor
 protocol RecipeViewModelProtocol: ObservableObject {
     var recipes: [Recipe] { get set }
 }
 
-/// `FetchRecipeContextViewModelProtocol`: Responsible for fetching recipes from the endpoint via the network layer and saving the context to local storage.
+/// `FetchRecipeContextViewModelProtocol` Protocol
+///
+/// A protocol for view models responsible for fetching recipes within a specific Core Data context.
+/// It ensures that conforming types can fetch recipes asynchronously using a provided `NSManagedObjectContext`.
+///
+/// - `fetchRecipes(context:)`: Asynchronously fetches recipes from the provided `NSManagedObjectContext`.
+///
+/// ## Usage:
+/// Conform to this protocol to implement asynchronous fetching of recipes from Core Data.
 protocol FetchRecipeContextViewModelProtocol {
     func fechtRecipes(context: NSManagedObjectContext) async
 }
@@ -29,6 +45,7 @@ class RecipeViewModel: RecipeViewModelProtocol, FetchRecipeContextViewModelProto
     }
     
     /// The custom `save` function is responsible for extracting each `recipe` and persisting it within the `context` entity of the `local storage` system.
+    /// - Parameter context: Recipes from NetworkManager
     private func save(context: NSManagedObjectContext) {
         recipes.forEach { recipe in
             let entity = RecipeData(context: context)
@@ -48,6 +65,8 @@ class RecipeViewModel: RecipeViewModelProtocol, FetchRecipeContextViewModelProto
         }
     }
     
+    /// When data is fetched by the NetworkManager, it is saved to the local database.
+    /// - Parameter context: Recipes from vm.reasults
     func fechtRecipes(context: NSManagedObjectContext) async {
         do {
             guard let url = Endpoint.url else { return }
