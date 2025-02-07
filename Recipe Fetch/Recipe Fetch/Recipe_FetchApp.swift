@@ -14,7 +14,7 @@ struct Recipe_FetchApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CoordinatorView()
                 .environment(\.managedObjectContext, persistenceContainer.container.viewContext)
         }
     }

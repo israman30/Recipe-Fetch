@@ -6,5 +6,6 @@
         <attribute name="photoURLSmall" optional="YES" attributeType="String"/>
         <attribute name="sourceURL" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="String"/>
+        <attribute name="youtubeURL" optional="YES" attributeType="String"/>
     </entity>
 </model>
