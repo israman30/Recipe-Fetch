@@ -60,6 +60,8 @@ These trade-offs helped ensure the app remained performant, responsive, and opti
 
 Implemented support for opening links, as WebKit and SafariViewController still present limitations and inconsistencies within SwiftUI.
 
+Enhance the UI slightly for a better user experience.
+
 ### Additional Information: Is there anything else we should know? Feel free to share any insights or constraints you encountered.
 
 There is a warning `Error creating the CFMessagePort needed to communicate with PPT.` Occurs when Core Data performs a VACUUM operation to free up space in the SQLite database. This message is expected and does not indicate an issue. More details can be found here. [source](https://stackoverflow.com/questions/69002421/coredata-annotation-postsavemaintenance-incremental-vacuum-with-freelist-coun)
