@@ -37,6 +37,7 @@ class RecipeViewModel: RecipeViewModelProtocol, FetchRecipeContextViewModelProto
             entity.photoURLSmall = recipe.photoURLSmall
             entity.uuid = recipe.uuid
             entity.sourceURL = recipe.sourceURL
+            entity.youtubeURL = recipe.youtubeURL
         }
         
         do {

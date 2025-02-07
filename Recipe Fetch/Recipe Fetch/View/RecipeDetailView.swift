@@ -9,11 +9,11 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     
-    var recipe: Recipe?
+    var recipeData: RecipeData?
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: recipe?.photoURLLarge ?? "")) { phase in
+            AsyncImage(url: URL(string: recipeData?.photoURLSmall ?? "")) { phase in
                 if let image = phase.image {
                     image
                         .resizable()
@@ -31,15 +31,15 @@ struct RecipeDetailView: View {
                 }
             }
             VStack(alignment: .center) {
-                Text(recipe?.name ?? "")
+                Text(recipeData?.name ?? "")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                Text(recipe?.cuisine ?? "")
+                Text(recipeData?.cuisinie ?? "")
                     .font(.title)
             }
             Spacer()
             VStack(spacing: 10) {
-                if let url = URL(string: recipe?.sourceURL ?? "") {
+                if let url = URL(string: recipeData?.sourceURL ?? "") {
                     Link(destination: url) {
                         HStack {
                             Text("Source")
@@ -49,7 +49,7 @@ struct RecipeDetailView: View {
                     }
                 }
                 
-                if let youtubeURL = URL(string: recipe?.youtubeURL ?? "") {
+                if let youtubeURL = URL(string: recipeData?.youtubeURL ?? "") {
                     Link(destination: youtubeURL) {
                         HStack {
                             Text("YouTube")
@@ -68,5 +68,5 @@ struct RecipeDetailView: View {
 }
 
 #Preview {
-    RecipeDetailView(recipe: Recipe(cuisine: "Malasyan", name: "Apam Balik", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg", photoURLSmall: "", sourceURL: "https://www.nyonyacooking.com/recipes/apam-balik~SJ5WuvsDf9WQ", uuid: "xxx", youtubeURL: "https://www.youtube.com/watch?v=6R8ffRRJcrg"))
+    RecipeDetailView()
 }

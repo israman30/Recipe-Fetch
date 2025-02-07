@@ -15,6 +15,7 @@ struct ContentView: View {
         entity: RecipeData.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \RecipeData.name, ascending: true)]
     ) private var results: FetchedResults<RecipeData>
+    @EnvironmentObject private var coordinator: Coordinator
     
     init() {
         self._vm = StateObject(wrappedValue: RecipeViewModel(networkManager: NetworkManager()))
@@ -41,7 +42,11 @@ struct ContentView: View {
                 } else {
                     List {
                         ForEach(results) { result in
-                            CardView(recipeData: result)
+                            Button {
+                                coordinator.push(.recipe(result))
+                            } label: {
+                                CardView(recipeData: result)
+                            }
                         }
                     }
                     .listStyle(.grouped)
@@ -73,4 +78,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(Coordinator())
 }

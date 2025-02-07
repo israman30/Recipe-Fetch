@@ -9,7 +9,7 @@ import SwiftUI
 
 enum Page: Hashable {
     case home
-    case recipe(Recipe)
+    case recipe(RecipeData)
     
     static func == (lhs: Page, rhs: Page) -> Bool {
         lhs.hashValue == rhs.hashValue
@@ -20,7 +20,7 @@ enum Page: Hashable {
         case .home:
             break
         case .recipe(let recipe):
-            hasher.combine(recipe.name)
+            hasher.combine(recipe.uuid)
         }
     }
 }
@@ -37,8 +37,8 @@ class Coordinator: ObservableObject {
         switch page {
         case .home:
             ContentView()
-        case .recipe(let recipe):
-            RecipeDetailView(recipe: recipe)
+        case .recipe(let recipeData):
+            RecipeDetailView(recipeData: recipeData)
         }
     }
 }
