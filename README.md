@@ -20,7 +20,7 @@ protocol RecipeViewModelProtocol: ObservableObject {
 }
 ```
 > [!NOTE]
-> The new [Observable]("https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro") API, available in `iOS 17+`, can also be used for `Observation`. However, since the minimum supported version (Fetch) for the app is `iOS 16+`, `ObservableObject` was chosen instead.
+> The new [Observable](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro) API, available in `iOS 17+`, can also be used for `Observation`. However, since the minimum supported version (Fetch) for the app is `iOS 16+`, `ObservableObject` was chosen instead.
 
 🔹 **Asynchronous Operations**: Leverage Swift Concurrency (`async/await`) for API calls and image loading.  
 ```swift
@@ -48,10 +48,10 @@ func fechtRecipes(context: NSManagedObjectContext) async {
 ```
 
 > [!NOTE]
-> The new [SwiftData]("https://developer.apple.com/documentation/swiftdata/") API, available in `iOS 17+`, can also be used for local storage. However, since the minimum supported version (Fetch) for the app is `iOS 16+`, Core Data was chosen instead.
+> The new [SwiftData](https://developer.apple.com/documentation/swiftdata/) API, available in `iOS 17+`, can also be used for local storage. However, since the minimum supported version (Fetch) for the app is `iOS 16+`, Core Data was chosen instead.
 
 
-🔹 **Efficient Networking**: Load images only when needed to optimize bandwidth usage. `AsyncImage` is a powerful feature in SwiftUI that simplifies the process of asynchronously loading and displaying remote images in the App. [Apple documentation]("https://developer.apple.com/documentation/swiftui/asyncimage")
+🔹 **Efficient Networking**: Load images only when needed to optimize bandwidth usage. `AsyncImage` is a powerful feature in SwiftUI that simplifies the process of asynchronously loading and displaying remote images in the App. [Apple documentation](https://developer.apple.com/documentation/swiftui/asyncimage)
 ```swift
 AsyncImage(url: ...)
 ```
