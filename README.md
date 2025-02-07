@@ -13,10 +13,34 @@
 🔹 **Software Design Pattern**: Implemented MVVM to enhance separation of concerns and maintainability.
 
 🔹 **Asynchronous Operations**: Leverage Swift Concurrency (`async/await`) for API calls and image loading.  
+```swift
+// Defines a blueprint for a network client that fetches and decodes data from a given URL.
+protocol APIClient {
+    func fetch<T: Decodable>(url: URL) async throws -> T
+}
+```
 
 🔹 **Manual Image Caching**: Implement disk caching to minimize redundant network requests—no third-party libraries.  
+Using a `PersistenceContainer`, the data fetched from the API is saved to local storage using Core Data.
+```swift
+private func save(context: NSManagedObjectContext) {
+    recipes.forEach { recipe in
+        // Creating a context from Core Data model entities
+    }
+}
 
-🔹 **Efficient Networking**: Load images only when needed to optimize bandwidth usage.  
+func fechtRecipes(context: NSManagedObjectContext) async {
+    // After fetching data from the internet,
+    self.recipes = try await networkManager.fetch(url: url)
+    // save the context to local storage.
+    self.save(context: context)
+}
+```
+
+🔹 **Efficient Networking**: Load images only when needed to optimize bandwidth usage. `AsyncImage` is a powerful feature in SwiftUI that simplifies the process of asynchronously loading and displaying remote images in the App. [Apple documentation]("https://developer.apple.com/documentation/swiftui/asyncimage")
+```swift
+AsyncImage(url: ...)
+```
 
 🔹 **User-Initiated Refresh**: Enable users to manually refresh the recipe list for updated content.  
 
