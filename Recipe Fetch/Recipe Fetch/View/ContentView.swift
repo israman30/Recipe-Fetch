@@ -70,6 +70,7 @@ struct ContentView: View {
                 context.delete(recipe)
             }
             try context.save()
+            self.vm.recipes.removeAll()
         } catch {
             print("Error deleting data: \(error)")
         }
