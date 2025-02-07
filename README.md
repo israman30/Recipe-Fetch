@@ -24,7 +24,7 @@
 
 🔹 **Unit Testing**: Focus on testing core logic like data fetching and caching to ensure reliability.  
 
-🔹 **SwiftUI-Driven**: Modern UI implementation showcasing Apple’s latest UI framework.  
+🔹 **SwiftUI-Driven**: Modern UI implementation showcasing Apple’s latest UI framework with support of both light and dark themes, as well as portrait and landscape orientations.  
 
 🚀 **Goal**: Deliver a high-performance, well-structured SwiftUI app with optimized networking, caching, and concurrency while maintaining clean architecture and testability. 
 
