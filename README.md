@@ -10,12 +10,20 @@
 
 🔹 **Two-Screen UI**: Display a list of recipes with name, photo, and cuisine type using SwiftUI and shows a detailed view where users can access additional information about each recipe.
 
+🔹 **Software Design Pattern**: Implemented MVVM to enhance separation of concerns and maintainability.
+
 🔹 **Asynchronous Operations**: Leverage Swift Concurrency (`async/await`) for API calls and image loading.  
+
 🔹 **Manual Image Caching**: Implement disk caching to minimize redundant network requests—no third-party libraries.  
+
 🔹 **Efficient Networking**: Load images only when needed to optimize bandwidth usage.  
+
 🔹 **User-Initiated Refresh**: Enable users to manually refresh the recipe list for updated content.  
+
 🔹 **Apple-Only Frameworks**: No external dependencies for networking, caching, or testing.  
+
 🔹 **Unit Testing**: Focus on testing core logic like data fetching and caching to ensure reliability.  
+
 🔹 **SwiftUI-Driven**: Modern UI implementation showcasing Apple’s latest UI framework.  
 
 🚀 **Goal**: Deliver a high-performance, well-structured SwiftUI app with optimized networking, caching, and concurrency while maintaining clean architecture and testability. 
