@@ -71,7 +71,7 @@ AsyncImage(url: ...)
  
 
 1️⃣ **Efficient Network Requests**:  
-   - Implemented **Azync image loading** to fetch images only when needed in the UI, preventing unnecessary API calls.  
+   - Implemented **Async image loading** to fetch images only when needed in the UI, preventing unnecessary API calls.  
    - Used **manual disk caching** to store images, reducing redundant network requests and improving app responsiveness.  
    - Ensured **concurrent API handling** with Swift Concurrency (`async/await`) to maintain smooth performance.  
 
