@@ -14,24 +14,12 @@ struct CardView: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            AsyncImage(url: URL(string: (recipe?.photoURLSmall == nil ? recipeData?.photoURLSmall : recipe?.photoURLSmall) ?? "")) { phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .cornerRadius(5)
-                } else if phase.error != nil {
-                    Text("Error loading image.")
-                        .font(.title)
-                        .foregroundStyle(.gray)
-                } else {
-                    Image(systemName: "wifi.exclamationmark")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200)
-                }
-            }
-            
+            CustomAsyncImage(
+                urlString: (
+                    recipe?.photoURLSmall == nil ? recipeData?.photoURLSmall : recipe?.photoURLSmall
+                )
+            )
+        
             VStack {
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
@@ -50,6 +38,30 @@ struct CardView: View {
 
 #Preview {
     CardView(recipe: Recipe(cuisine: "Italian", name: "Spagetty", photoURLLarge: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg", photoURLSmall: "", sourceURL: "", uuid: "2www", youtubeURL: "https://www.youtube.com/watch?v=6R8ffRRJcrg"))
+}
+
+struct CustomAsyncImage: View {
+    let urlString: String?
+    
+    var body: some View {
+        AsyncImage(url: URL(string: urlString ?? "")) { phase in
+            if let image = phase.image {
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .cornerRadius(5)
+            } else if phase.error != nil {
+                Text("Error loading image.")
+                    .font(.title)
+                    .foregroundStyle(.gray)
+            } else {
+                Image(systemName: "wifi.exclamationmark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200)
+            }
+        }
+    }
 }
 
 // MARK: - Modifier for CardView shadow
