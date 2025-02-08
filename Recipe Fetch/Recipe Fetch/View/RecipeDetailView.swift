@@ -12,24 +12,7 @@ struct RecipeDetailView: View {
     var recipeData: RecipeData?
     
     var body: some View {
-        VStack {
-            AsyncImage(url: URL(string: recipeData?.photoURLSmall ?? "")) { phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .cornerRadius(5)
-                } else if phase.error != nil {
-                    Text("Error loading image.")
-                        .font(.title)
-                        .foregroundStyle(.gray)
-                } else {
-                    Image(systemName: "wifi.exclamationmark")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200)
-                }
-            }
+        GroupBox {
             VStack(alignment: .center) {
                 Text(recipeData?.name ?? "")
                     .font(.largeTitle)
@@ -37,7 +20,10 @@ struct RecipeDetailView: View {
                 Text(recipeData?.cuisinie ?? "")
                     .font(.title)
             }
-            Spacer()
+            GroupBox {
+                CustomAsyncImage(urlString: recipeData?.photoURLSmall)
+            }
+            
             VStack(spacing: 10) {
                 if let url = URL(string: recipeData?.sourceURL ?? "") {
                     Link(destination: url) {
@@ -61,12 +47,12 @@ struct RecipeDetailView: View {
                 }
             }
             .padding()
-            Spacer()
         }
-        .ignoresSafeArea(.all)
+        Spacer()
     }
 }
 
 #Preview {
     RecipeDetailView()
 }
+
