@@ -61,6 +61,7 @@ struct CustomAsyncImage: View {
                     .frame(width: 200)
             }
         }
+        .shadow(color: .black, radius: 5, x: 2, y: 2)
     }
 }
 
