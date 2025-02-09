@@ -43,7 +43,7 @@ struct ContentView: View {
                     if vm.recipes.isEmpty {
                         ProgressView()
                             .task {
-                                await vm.fechtRecipes(context: context)
+                                await vm.render(context: context) 
                             }
                     } else {
                         List {

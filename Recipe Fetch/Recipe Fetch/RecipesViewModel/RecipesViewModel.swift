@@ -40,6 +40,9 @@ class RecipeViewModel: RecipeViewModelProtocol, FetchRecipeContextViewModelProto
     
     private let networkManager: APIClient
     
+    private var totalPages = 0
+    private var page = 1
+    
     init(networkManager: APIClient) {
         self.networkManager = networkManager
     }
@@ -71,9 +74,23 @@ class RecipeViewModel: RecipeViewModelProtocol, FetchRecipeContextViewModelProto
         do {
             guard let url = Endpoint.url else { return }
             self.recipes = try await networkManager.fetch(url: url)
-            self.save(context: context)
         } catch {
             print("DEBUG: \(APIError.errorGettingDataFromNetworkLayer(error))")
         }
+    }
+    
+    func loadContent(recipe: Recipe, context: NSManagedObjectContext) async {
+        
+        let index = self.recipes.index(self.recipes.endIndex, offsetBy: -1)
+        if index == Int(recipe.uuid), (page + 1) <= totalPages {
+            page += 1
+            await fechtRecipes(context: context)
+            self.save(context: context)
+        }
+    }
+    
+    func render(context: NSManagedObjectContext) async {
+        print("Paging...")
+        await fechtRecipes(context: context)
     }
 }
